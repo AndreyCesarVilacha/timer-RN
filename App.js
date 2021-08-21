@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { LogBox, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 //expo install @react-native-picker/picker
 import {Picker} from '@react-native-picker/picker';
 //expo install expo-linear-gradient
 import { LinearGradient } from 'expo-linear-gradient';
+import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 
 export default function App() {
 
+  LogBox.ignoreAllLogs(disableExpoCliLogging);
+  const [estado, setEstado] = useState('selecionar');
   const [segundos, setSegundos] = useState(0);
   const [minutos, setMinutos] = useState(0);
 
@@ -30,12 +33,6 @@ export default function App() {
       som: 'alarme 3',
       file: 'alarm3.mp3',
     },
-    {
-      id:4,
-      selecionado: false,
-      som: 'alarme 4',
-      file: 'alarm4.mp3',
-    },
   ]);
 
   const [selectedLanguage, setSelectedLanguage] = useState();
@@ -57,7 +54,8 @@ export default function App() {
     setAlarmeSound(alarmesTemp);
   }
 
-  return (
+  if(estado =='selecionar'){
+  return (    
     <View style={styles.container}>
       <StatusBar style="auto" />
       <LinearGradient
@@ -69,7 +67,8 @@ export default function App() {
           right: 0,
           top: 0,
           height: '100%',
-        }} />
+        }}/>
+      {/*Área de selecionar o tempo */} 
       <Text style={styles.textoSelcione}>Selecione o seu Tempo: </Text>
       <View style={styles.timeContainer}>
         <Text style={{color:'white', paddingTop:16}}>Min:</Text>
@@ -101,6 +100,7 @@ export default function App() {
         </Picker>
       </View>
 
+      {/*Área de escolher alarme */}  
       <View style={{flexDirection:'row', flexWrap:'wrap'}}>
         {
           alarmeSound.map(function(val){
@@ -123,8 +123,21 @@ export default function App() {
         }
       </View>
 
+      <TouchableOpacity onPress={()=>setEstado('iniciar')} style={styles.btnIniciar}>
+        <Text style={{textAlign:'center', marginTop: '40%', fontWeight:'bold', color:'white'}}>Iniciar</Text>
+      </TouchableOpacity>
+
     </View>
   );
+  } else if(estado == 'iniciar'){
+
+    return(
+      <View>
+        <Text>Iniciar</Text>
+      </View>
+    )
+
+  }
 }
 
 const styles = StyleSheet.create({
@@ -157,5 +170,14 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderColor: 'white',
     borderWidth: 1.5,
+  },
+  btnIniciar: {
+    backgroundColor: 'rgb(80,80,80)',
+    width:100,
+    height:100,
+    borderRadius: 50,
+    marginTop: 40,
+    borderColor: 'white',
+    borderWidth: 2,
   }
 });
