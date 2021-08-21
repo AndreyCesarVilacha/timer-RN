@@ -13,27 +13,27 @@ export default function App() {
 
   LogBox.ignoreAllLogs(disableExpoCliLogging);
   const [estado, setEstado] = useState('selecionar');
-  const [segundos, setSegundos] = useState(0);
-  const [minutos, setMinutos] = useState(1);
+  const [segundos, setSegundos] = useState(1);
+  const [minutos, setMinutos] = useState(0);
 
   const [alarmeSound, setAlarmeSound] = useState([
     {
       id:1,
       selecionado: true,
       som: 'alarme 1',
-      file: 'alarm1.mp3',
+      file: require('./assets/alarme1.mp3'),
     },
     {
       id:2,
       selecionado: false,
       som: 'alarme 2',
-      file: 'alarm2.mp3',
+      file: require('./assets/alarme2.mp3'),
     },
     {
       id:3,
       selecionado: false,
       som: 'alarme 3',
-      file: 'alarm3.mp3',
+      file: require('./assets/alarme3.mp3'),
     },
   ]);
 
@@ -80,6 +80,7 @@ export default function App() {
           onValueChange={(itemValue, itemIndex) =>
           setMinutos(itemValue)
           }>
+            <Picker.Item label='0' value='0'/>
             {
               numeros.map((val)=>{
                 return (<Picker.Item label={val.toString()} value={val.toString()} />)
@@ -93,7 +94,7 @@ export default function App() {
           onValueChange={(itemValue, itemIndex) =>
           setSegundos(itemValue)
           }>
-            <Picker.Item label='0' value='0'/>
+            
             {
               numeros.map((val)=>{
                 return (<Picker.Item label={val.toString()} value={val.toString()} />)
@@ -134,7 +135,12 @@ export default function App() {
   } else if(estado == 'iniciar'){
 
     return(
-      <Contador setarEstado={setEstado} minutos={minutos}  segundos={segundos}/>
+      <Contador 
+        alarmes={alarmeSound} 
+        setarMinutos={setMinutos} 
+        setarSegundos={setSegundos} 
+        setarEstado={setEstado} minutos={minutos}  
+        segundos={segundos}/>
     )
 
   }
