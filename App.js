@@ -1,18 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import { LogBox, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { disableExpoCliLogging } from 'expo/build/logs/Logs';
 //expo install @react-native-picker/picker
 import {Picker} from '@react-native-picker/picker';
 //expo install expo-linear-gradient
 import { LinearGradient } from 'expo-linear-gradient';
-import { disableExpoCliLogging } from 'expo/build/logs/Logs';
+//Componentes personalizados
+import Contador from './components/Contador';
 
 export default function App() {
 
   LogBox.ignoreAllLogs(disableExpoCliLogging);
   const [estado, setEstado] = useState('selecionar');
   const [segundos, setSegundos] = useState(0);
-  const [minutos, setMinutos] = useState(0);
+  const [minutos, setMinutos] = useState(1);
 
   const [alarmeSound, setAlarmeSound] = useState([
     {
@@ -132,9 +134,7 @@ export default function App() {
   } else if(estado == 'iniciar'){
 
     return(
-      <View>
-        <Text>Iniciar</Text>
-      </View>
+      <Contador setarEstado={setEstado} minutos={minutos}  segundos={segundos}/>
     )
 
   }
